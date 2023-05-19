@@ -6,9 +6,10 @@ import Link from 'next/link'
 import Image from 'next/image'
 
 const Nav = () => {
-  const isUserLoggoedIn = false
+  const isUserLoggoedIn = true
 
   const [authProviders, setAuthProviders] = useState<any>(null)
+  const [toggleDropdown, setToggleDropdown] = useState<any>(false)
 
   useEffect(() => {
     const setProviders = async () => {
@@ -29,7 +30,7 @@ const Nav = () => {
           height={30}
           className='object-contain'
         />
-        <p className='logo_text'>EachPromptai</p>
+        <p className='logo_text'>EachPromptAI</p>
       </Link>
       <div className='sm:flex hidden'>
         {isUserLoggoedIn ? (
@@ -79,8 +80,33 @@ const Nav = () => {
               width={37}
               height={37}
               className='rounded-full'
-              // onClick={}
+              onClick={() => setToggleDropdown((prev: any) => !prev)}
             />
+
+            {/* Dropdown */}
+            {toggleDropdown && (
+              <div className='dropdown'>
+                <Link
+                  href='/profile'
+                  className='dropdown_link'
+                  onClick={() => setToggleDropdown(false)}>
+                  My Profile
+                </Link>
+                <Link
+                  href='/create-prompt'
+                  className='dropdown_link mt-4'
+                  onClick={() => setToggleDropdown(false)}>
+                  Create Prompt
+                </Link>
+                <button
+                  type='button'
+                  className='mt-5 w-full black_btn'
+                  onClick={() => {
+                    setToggleDropdown(false)
+                    signOut()
+                  }}> Sign Out</button>
+              </div>
+            )}
           </div>
         ) : (
           <>
